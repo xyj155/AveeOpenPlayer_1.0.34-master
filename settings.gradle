@@ -1,0 +1,2 @@
+include ':glrecorder'
+include ':app', ':ColorMixer'

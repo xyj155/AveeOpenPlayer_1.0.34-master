@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AveeOpenPlayer_1.0.34-master.iml" filepath="$PROJECT_DIR$/.idea/modules/AveeOpenPlayer_1.0.34-master.iml" group="AveeOpenPlayer_1.0.34-master" />
+      <module fileurl="file://$PROJECT_DIR$/ColorMixer/ColorMixer.iml" filepath="$PROJECT_DIR$/ColorMixer/ColorMixer.iml" group="AveeOpenPlayer_1.0.34-master/ColorMixer" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AveeOpenPlayer_1.0.34-master/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/glrecorder/glrecorder.iml" filepath="$PROJECT_DIR$/.idea/modules/glrecorder/glrecorder.iml" group="AveeOpenPlayer_1.0.34-master/glrecorder" />
+    </modules>
+  </component>
+</project>

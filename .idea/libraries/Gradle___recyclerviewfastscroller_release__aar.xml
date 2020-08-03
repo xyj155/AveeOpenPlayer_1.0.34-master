@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :recyclerviewfastscroller-release:@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c95749a14d04d27f0e5d9427d23199be/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c95749a14d04d27f0e5d9427d23199be/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c95749a14d04d27f0e5d9427d23199be/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

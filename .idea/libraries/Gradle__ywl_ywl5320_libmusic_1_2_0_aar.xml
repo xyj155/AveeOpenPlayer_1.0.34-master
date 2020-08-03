@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: ywl.ywl5320:libmusic:1.2.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcf189b9b8f202735c1003e3c3efe3c8/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcf189b9b8f202735c1003e3c3efe3c8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcf189b9b8f202735c1003e3c3efe3c8/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ywl.ywl5320/libmusic/1.2.0/a7fcb8d078bece4fb5db16abffc038ad94eed7d7/libmusic-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
