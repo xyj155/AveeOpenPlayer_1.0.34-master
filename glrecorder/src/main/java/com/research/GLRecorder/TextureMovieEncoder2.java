@@ -92,7 +92,7 @@ public class TextureMovieEncoder2 implements Runnable {
 
     /**
      * Tells the video recorder to stop recording.  (Call from non-encoder thread.)
-     * <p>
+     * <p>sf af fa af afa
      * Returns immediately; the encoder/muxer may not yet be finished creating the movie.
      * <p>
      * TODO: have the encoder thread invoke a callback on the UI thread just before it shuts down
