@@ -123,7 +123,7 @@ public abstract class MyIntentService extends Service {
      * override {@link #onHandleIntent}, which the system calls when the IntentService
      * receives a start request.
      *
-     * @see Service#onStartCommand
+     * @see android.app.Service#onStartCommand
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -140,7 +140,7 @@ public abstract class MyIntentService extends Service {
      * Unless you provide binding for your service, you don't need to implement this
      * method, because the default implementation returns null.
      *
-     * @see Service#onBind
+     * @see android.app.Service#onBind
      */
     @Override
     public IBinder onBind(Intent intent) {

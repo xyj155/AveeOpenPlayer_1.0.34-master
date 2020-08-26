@@ -1,0 +1,14 @@
+//
+// Created by Administrator on 2020/8/19.
+//
+
+#ifndef AVEEOPENPLAYER_1_0_34_MASTER_EXPORTVIDEO_H
+#define AVEEOPENPLAYER_1_0_34_MASTER_EXPORTVIDEO_H
+
+
+class ExportVideo {
+
+};
+
+
+#endif //AVEEOPENPLAYER_1_0_34_MASTER_EXPORTVIDEO_H

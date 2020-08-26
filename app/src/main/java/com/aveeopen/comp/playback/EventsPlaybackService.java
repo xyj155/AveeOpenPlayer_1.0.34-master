@@ -78,18 +78,18 @@ public class EventsPlaybackService {
             @Override
             public void invoke(Integer action) {
                 switch (action) {
-                    case Receive.ACTION_Play:
+                    case EventsPlaybackService.Receive.ACTION_Play:
                         startService(MediaPlaybackServiceDefs.PLAY_ACTION);
                         break;
 
-                    case Receive.ACTION_Pause:
+                    case EventsPlaybackService.Receive.ACTION_Pause:
                         startService(MediaPlaybackServiceDefs.PAUSE_ACTION);
                         break;
 
-                    case Receive.ACTION_Stop:
+                    case EventsPlaybackService.Receive.ACTION_Stop:
                         startService(MediaPlaybackServiceDefs.STOP_ACTION);
                         break;
-                    case Receive.ACTION_TogglePause:
+                    case EventsPlaybackService.Receive.ACTION_TogglePause:
                         startService(MediaPlaybackServiceDefs.TOGGLE_PAUSE_ACTION);
                         break;
                 }

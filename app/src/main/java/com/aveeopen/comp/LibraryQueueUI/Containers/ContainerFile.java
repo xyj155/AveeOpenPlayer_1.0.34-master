@@ -252,14 +252,14 @@ public class ContainerFile extends ContainerBase implements ViewAdapter.IAdapter
         }
 
         @Override
-        public void onItemDirFound(AsyncTask task, Item itemDir) {
+        public void onItemDirFound(AsyncTask task, ContainerFile.Item itemDir) {
             if (checkItemIdentEquals("")) return;
             if (!compareTask(task)) return;
             ContainerFile.this.setSearchActive(true);
         }
 
         @Override
-        public void onItemFileFound(AsyncTask task, Item itemFile) {
+        public void onItemFileFound(AsyncTask task, ContainerFile.Item itemFile) {
             if (checkItemIdentEquals("")) return;
             if (!compareTask(task)) {
                 return;

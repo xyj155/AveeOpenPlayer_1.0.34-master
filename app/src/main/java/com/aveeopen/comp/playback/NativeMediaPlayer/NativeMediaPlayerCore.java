@@ -94,7 +94,7 @@ public class NativeMediaPlayerCore implements
     }
 
     @Override
-    public void setNotifyListener(OnNotifyListener onNotifyListener) {
+    public void setNotifyListener(IMediaPlayerCore.OnNotifyListener onNotifyListener) {
         this.onNotifyListener = onNotifyListener;
     }
 

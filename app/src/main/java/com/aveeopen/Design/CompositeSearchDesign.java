@@ -75,7 +75,7 @@ public class CompositeSearchDesign {
         }
         , listenerRefHolder);
 
-        MainActivity.onUISearchQueryTextChange.subscribeWeak(new WeakEvent2.Handler<Integer, String>() {
+        MainActivity.onUISearchQueryTextChange.subscribeWeak(new WeakEvent2.Handler<Integer, java.lang.String>() {
             @Override
             public void invoke(Integer index, String query) {
                 GlobalSearchCore globalSearchCore = GlobalSearchCore.getInstance();
@@ -85,7 +85,7 @@ public class CompositeSearchDesign {
             }
         }, listenerRefHolder);
 
-        SearchTaskManager.onUISearchQueryTextChangeWithIndex.subscribeWeak(new WeakEvent2.Handler<Integer, String>() {
+        SearchTaskManager.onUISearchQueryTextChangeWithIndex.subscribeWeak(new WeakEvent2.Handler<Integer, java.lang.String>() {
             @Override
             public void invoke(Integer index, String query) {
                 GlobalSearchCore globalSearchCore = GlobalSearchCore.getInstance();

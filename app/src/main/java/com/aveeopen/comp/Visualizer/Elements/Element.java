@@ -182,13 +182,13 @@ public abstract class Element {
     protected void onCreateGLResources(RenderState renderData) {
     }
 
-    public boolean getCustomization(CustomizationList customization, int customizationIndex) {
+    public boolean getCustomization(Element.CustomizationList customization, int customizationIndex) {
 
 //        Element.CustomizationData customizationData = new CustomizationData(customizationIndex, "", 0xffff00ff);
 //        onReadCustomization(customizationData);
 //        customization.addData(customizationData);
 
-        CustomizationData customizationData = new CustomizationData(customization.getNewDataJSONObject());
+        Element.CustomizationData customizationData = new CustomizationData(customization.getNewDataJSONObject());
         onReadCustomization(customizationData);
         //customization.addData(customizationData);
 
@@ -197,9 +197,9 @@ public abstract class Element {
     }
 
     //return: false - failed
-    public boolean setCustomization(CustomizationList customization, Integer[] dataCounter) {
+    public boolean setCustomization(Element.CustomizationList customization, Integer[] dataCounter) {
 
-        CustomizationData customizationData = customization.getData(dataCounter[0]);
+        Element.CustomizationData customizationData = customization.getData(dataCounter[0]);
         dataCounter[0]++;
         if (customizationData == null) return false;//failed
 
@@ -210,10 +210,10 @@ public abstract class Element {
     }
 
 
-    protected void onApplyCustomization(CustomizationData customizationData) {
+    protected void onApplyCustomization(Element.CustomizationData customizationData) {
     }
 
-    protected void onReadCustomization(CustomizationData outCustomizationData) {
+    protected void onReadCustomization(Element.CustomizationData outCustomizationData) {
     }
 
     public static class CustomizationData {

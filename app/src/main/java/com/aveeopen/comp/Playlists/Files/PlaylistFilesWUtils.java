@@ -79,7 +79,7 @@ public class PlaylistFilesWUtils {
     static int appendToSpecificPlaylist(christophedelory.playlist.kpl.Xml specificPlaylist, AppendParameters parameters, List<PlaylistSong> listToAdd) {
 
         for (PlaylistSong s : listToAdd) {
-            Entry item = new Entry();
+            christophedelory.playlist.kpl.Entry item = new Entry();
             item.setFilename(getDataPathForPlaylist(s, parameters.playlistPath, parameters.writeRelativePaths));
             specificPlaylist.getEntries().add(item);
         }

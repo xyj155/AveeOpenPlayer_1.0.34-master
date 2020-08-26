@@ -22,7 +22,7 @@ public class ExoEqualizerEffect extends BaseEqualizerEffect {
 
     public static String name = "Exo";
 
-    public ExoEqualizerEffect(IEqualizerEffectListener equalizerEffectListener) {
+    public ExoEqualizerEffect(BaseEqualizerEffect.IEqualizerEffectListener equalizerEffectListener) {
         super(equalizerEffectListener, name);
     }
 

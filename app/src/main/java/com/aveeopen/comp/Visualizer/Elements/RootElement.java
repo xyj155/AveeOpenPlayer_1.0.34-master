@@ -70,7 +70,7 @@ public class RootElement extends ElementGroup {
         renderChilds(renderData, resultFB);
     }
 
-    public int readThemeCustomizationData(CustomizationList customization) {
+    public int readThemeCustomizationData(Element.CustomizationList customization) {
         if (getCustomization(customization, 0))
             return getIdentifier();
 

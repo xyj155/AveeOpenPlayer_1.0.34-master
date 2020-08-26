@@ -76,7 +76,7 @@ public abstract class ElementGroup extends Element {
     }
 
     @Override
-    public boolean getCustomization(CustomizationList customization, int customizationIndex) {
+    public boolean getCustomization(Element.CustomizationList customization, int customizationIndex) {
         super.getCustomization(customization, 0);
 
         if (customization == null)
@@ -92,7 +92,7 @@ public abstract class ElementGroup extends Element {
 
     //return: false - failed
     @Override
-    public boolean setCustomization(CustomizationList customization, Integer[] dataCounter) {
+    public boolean setCustomization(Element.CustomizationList customization, Integer[] dataCounter) {
         if (customization == null)
             return false;
 
@@ -106,7 +106,7 @@ public abstract class ElementGroup extends Element {
         return true;
     }
 
-    public boolean setCustomization(CustomizationList customization) {
+    public boolean setCustomization(Element.CustomizationList customization) {
         if (customization == null)
             return false;
 

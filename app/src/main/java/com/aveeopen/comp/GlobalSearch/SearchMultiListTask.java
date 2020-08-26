@@ -33,7 +33,7 @@ public class SearchMultiListTask<T1, T2> extends AsyncTask<String, Object, Void>
     private WeakReference<IResultReceiver<T1, T2>> receiver;
     private int fileCounter = 0;
 
-    IResultReceiverInternal<T1, T2> resultReceiver0 = new IResultReceiverInternal<T1, T2>() {
+    SearchMultiListTask.IResultReceiverInternal<T1, T2> resultReceiver0 = new IResultReceiverInternal<T1, T2>() {
 
         @Override
         public void onItemDirFound(final Tuple2<T1, T2> itemDir) {

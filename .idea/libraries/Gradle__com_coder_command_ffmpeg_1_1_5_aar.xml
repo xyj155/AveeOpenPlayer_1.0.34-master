@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.coder.command:ffmpeg:1.1.5@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b6f00302bdc66a13b4a8d96b9e6042c/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b6f00302bdc66a13b4a8d96b9e6042c/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b6f00302bdc66a13b4a8d96b9e6042c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b6f00302bdc66a13b4a8d96b9e6042c/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.coder.command/ffmpeg/1.1.5/a08066facccae8ae6b3523681dadf1a4586769f5/ffmpeg-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

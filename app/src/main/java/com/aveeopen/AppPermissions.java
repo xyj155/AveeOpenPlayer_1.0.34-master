@@ -30,11 +30,11 @@ public class AppPermissions {
 
     public static boolean isStoragePermissionGranted(Context context, Activity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO}, REQUEST_STORAGE);
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation
@@ -44,7 +44,7 @@ public class AppPermissions {
 
     public static boolean is_RecordAudio_PermissionGranted(Context context, Activity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (context.checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+            if (context.checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {

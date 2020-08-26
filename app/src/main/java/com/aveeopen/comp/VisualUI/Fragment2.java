@@ -18,18 +18,36 @@ package com.aveeopen.comp.VisualUI;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
+import android.media.MediaMuxer;
+import android.opengl.EGL14;
+import android.opengl.EGLDisplay;
+import android.opengl.EGLSurface;
+import android.os.Build;
 import android.os.Bundle;
 //import android.test.UiThreadTest;
+import android.os.Environment;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
+import com.aveeopen.AveeBufferCallBack;
 import com.aveeopen.Common.Events.WeakEvent;
 import com.aveeopen.Common.Events.WeakEvent1;
 import com.aveeopen.Common.Events.WeakEvent3;
@@ -42,8 +60,24 @@ import com.aveeopen.comp.LibraryQueueUI.MyView;
 import com.aveeopen.comp.Visualizer.Elements.Element;
 import com.aveeopen.comp.Visualizer.VisualizerViewCore;
 import com.aveeopen.R;
+import com.aveeopen.comp.glis.EglCore;
+import com.coder.ffmpeg.utils.FFmpegUtils;
 import com.google.android.exoplayer.AspectRatioFrameLayout;
-import com.research.GLRecorder.GLRecorder;
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ShortBuffer;
+import java.security.Policy;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import xyz.mylib.creator.handler.CreatorExecuteResponseHander;
+import xyz.mylib.creator.task.AvcExecuteAsyncTask;
+
+import static android.media.MediaCodec.BUFFER_FLAG_CODEC_CONFIG;
 
 public class Fragment2 extends Fragment {
 
@@ -83,11 +117,114 @@ public class Fragment2 extends Fragment {
         return fragment;
     }
 
+    private MediaCodec mVideoEncodec;
+    private int width = 1080, height = 1920;
+    private static final String TAG = "Fragment2";
+    private EGLDisplay mEGLDisplay = EGL14.EGL_NO_DISPLAY;
+    private EGLSurface windowSurface;
+    private MediaCodec.BufferInfo mVideoBuffInfo;
+    private MediaMuxer mediaMuxer;
+    private long pts = 0;
+    private MediaFormat videoFormat;
+    private Surface inputSurface;
+    private boolean mMuxerStarted = false;
+    private int frameRate = 30;
+
+    private void prepareEncoder() {
+        try {
+            mediaMuxer = new MediaMuxer("/sdcard/1/temp.mp4", MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            mVideoBuffInfo = new MediaCodec.BufferInfo();
+            mVideoEncodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
+            videoFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
+            videoFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
+            videoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate);//30帧
+            videoFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 4);//RGBA
+            videoFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+            mVideoEncodec.configure(videoFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+            inputSurface = mVideoEncodec.createInputSurface();
+        } catch (Exception e) {
+            Log.i(TAG, "prepareEncoder: " + e.getMessage());
+        }
+
+
+    }
+
+    private void drainEncoder(boolean endOfStream) {
+        final int TIMEOUT_USEC = 10000;
+
+        // 停止录制
+        if (endOfStream) {
+            mVideoEncodec.signalEndOfInputStream();
+        }
+        //拿到输出缓冲区,用于取到编码后的数据
+        ByteBuffer[] encoderOutputBuffers = mVideoEncodec.getOutputBuffers();
+        while (true) {
+            //拿到输出缓冲区的索引
+            int encoderStatus = mVideoEncodec.dequeueOutputBuffer(mVideoBuffInfo, TIMEOUT_USEC);
+            if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
+                // no output available yet
+                if (!endOfStream) {
+                    break;      // out of while
+                } else {
+
+                }
+            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                //拿到输出缓冲区,用于取到编码后的数据
+                encoderOutputBuffers = mVideoEncodec.getOutputBuffers();
+            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                // should happen before receiving buffers, and should only happen once
+                if (mMuxerStarted) {
+                    throw new RuntimeException("format changed twice");
+                }
+                //
+                MediaFormat newFormat = mVideoEncodec.getOutputFormat();
+                // now that we have the Magic Goodies, start the muxer
+                mTrackIndex = mediaMuxer.addTrack(newFormat);
+                //
+                mediaMuxer.start();
+                mMuxerStarted = true;
+            } else if (encoderStatus < 0) {
+            } else {
+                //获取解码后的数据
+                ByteBuffer encodedData = encoderOutputBuffers[encoderStatus];
+                if (encodedData == null) {
+                    throw new RuntimeException("encoderOutputBuffer " + encoderStatus +
+                            " was null");
+                }
+                //
+                if ((mVideoBuffInfo.flags & MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0) {
+                    mVideoBuffInfo.size = 0;
+                }
+                //
+                if (mVideoBuffInfo.size != 0) {
+                    if (!mMuxerStarted) {
+                        throw new RuntimeException("muxer hasn't started");
+                    }
+                    // adjust the ByteBuffer values to match BufferInfo (not needed?)
+                    encodedData.position(mVideoBuffInfo.offset);
+                    encodedData.limit(mVideoBuffInfo.offset + mVideoBuffInfo.size);
+                    // 编码
+                    mediaMuxer.writeSampleData(mTrackIndex, encodedData, mVideoBuffInfo);
+                }
+                //释放资源
+                mVideoEncodec.releaseOutputBuffer(encoderStatus, false);
+
+                if ((mVideoBuffInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+                    if (!endOfStream) {
+                        Log.w(TAG, "reached end of stream unexpectedly");
+                    } else {
+
+                    }
+                    break;      // out of while
+                }
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_2, container, false);
-
         setStatusBarDimensions(rootView.findViewById(R.id.viewStatusBarBg));
 
         rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -108,6 +245,7 @@ public class Fragment2 extends Fragment {
         });
 
         layoutButtons = rootView.findViewById(R.id.layoutButtons);
+
         ImageButton btn0 = (ImageButton) layoutButtons.findViewById(R.id.btn0);
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +296,7 @@ public class Fragment2 extends Fragment {
             }
         });
 
+
         surfaceViewVideo = (SurfaceView) rootView.findViewById(R.id.surfaceViewVideo);
         surfaceViewVideo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,32 +323,77 @@ public class Fragment2 extends Fragment {
             boolean showVideoContent = onRequestShowVideoContentState.invoke(false);
             updateSurfaceVisibility(need, showVideoContent);
         }
-        rootView.findViewById(R.id.record)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        surfaceViewVisualizer.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                GLRecorder.startRecording();
-                            }
-                        });
-                    }
-                });
-        rootView.findViewById(R.id.stop).setOnClickListener(new View.OnClickListener() {
+
+
+        prepareEncoder();
+
+        mTrackIndex = mediaMuxer.addTrack(mVideoEncodec.getOutputFormat());
+        mVideoEncodec.start();
+        CodecInputSurface mInputSurface = new CodecInputSurface(inputSurface);
+        mInputSurface.makeCurrent();
+        surfaceViewVisualizer.setAveeBufferCallBack(new AveeBufferCallBack() {
             @Override
-            public void onClick(View view) {
-                surfaceViewVisualizer.queueEvent(new Runnable() {
-                    @Override
-                    public void run() {
-                        GLRecorder.stopRecording();
-                    }
-                });
+            public void bufferCallBack(ByteBuffer byteBuffer, int textureId) {
+                drainEncoder(false);
+                mInputSurface.setPresentationTime(computePresentationTimeNsec(textureId));
+                // Submit it to the encoder
+                mInputSurface.swapBuffers();
+//                int outputBufIndex = mVideoEncodec.dequeueOutputBuffer(mVideoBuffInfo, 1000);
+//                if (outputBufIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+//                    mTrackIndex = mediaMuxer.addTrack(mVideoEncodec.getOutputFormat());
+//                    mediaMuxer.start();
+//                } else if (outputBufIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
+//                    ByteBuffer[] inputBuffers = mVideoEncodec.getInputBuffers();
+//                    int inputBufIndex = mVideoEncodec.dequeueInputBuffer(1000);
+//                    ByteBuffer inputBuffer = inputBuffers[inputBufIndex];
+//                    inputBuffer.clear();
+//                    inputBuffer.put(byteBuffer);
+//                    mVideoEncodec.queueInputBuffer(inputBufIndex, 0, byteBuffer.array().length, System.nanoTime() / 1000, 0);
+//                } else {
+//                    while (outputBufIndex >= 0) {
+//                        ByteBuffer outPutBuffer = mVideoEncodec.getInputBuffers()[outputBufIndex];
+//                        if (outPutBuffer != null) {
+//                            outPutBuffer.position(mVideoBuffInfo.offset);
+//                            outPutBuffer.limit(mVideoBuffInfo.offset + mVideoBuffInfo.size);
+//                            if (pts == 0) {
+//                                pts = mVideoBuffInfo.presentationTimeUs;
+//                            }
+//                            mVideoBuffInfo.presentationTimeUs = mVideoBuffInfo.presentationTimeUs - pts;
+//                            mediaMuxer.writeSampleData(mTrackIndex, outPutBuffer, mVideoBuffInfo);
+//                            mVideoEncodec.releaseOutputBuffer(outputBufIndex, false);
+//                            outputBufIndex = mVideoEncodec.dequeueOutputBuffer(mVideoBuffInfo, 0);
+//                        }
+//
+//                    }
+//                }
+
+
+            }
+
+            @Override
+            public void bufferCallBack(int textureId) {
+
             }
         });
         return rootView;
     }
 
+    private  long computePresentationTimeNsec(int frameIndex) {
+        final long ONE_BILLION = 1000000000;
+        return frameIndex * ONE_BILLION / frameRate;
+    }
+
+    protected long getPTSUs() {
+        long result = System.nanoTime() / 1000L;
+
+        if (result < prevOutputPTSUs)
+            result = (prevOutputPTSUs - result) + result;
+        return result;
+    }
+
+    private long prevOutputPTSUs = 0;
+    private int mTrackIndex = 0;
+    private int videoTrack = -1;
 
     @Override
     public void onDestroyView() {

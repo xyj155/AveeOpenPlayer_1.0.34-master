@@ -1,2 +1,2 @@
-include ':glrecorder'
+include ':LanSongSDK'
 include ':app', ':ColorMixer'

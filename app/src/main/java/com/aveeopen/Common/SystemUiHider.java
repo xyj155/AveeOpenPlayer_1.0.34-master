@@ -34,7 +34,7 @@ import android.view.View;
  * "http://developer.android.com/design/get-started/ui-overview.html#system-bars"
  * > System Bars</a>.
  *
- * @see View#setSystemUiVisibility(int)
+ * @see android.view.View#setSystemUiVisibility(int)
  * @see android.view.WindowManager.LayoutParams#FLAG_FULLSCREEN
  */
 public abstract class SystemUiHider {
@@ -80,7 +80,7 @@ public abstract class SystemUiHider {
         }
     };
     /**
-     * The view on which {@link View#setSystemUiVisibility(int)} will be called.
+     * The view on which {@link android.view.View#setSystemUiVisibility(int)} will be called.
      */
     protected View mAnchorView;
     /**

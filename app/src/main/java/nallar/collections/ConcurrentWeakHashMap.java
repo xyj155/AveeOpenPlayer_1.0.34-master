@@ -81,7 +81,7 @@ public class ConcurrentWeakHashMap extends WeakHashMap {
 	}
 
 	@Override
-	public Set<Entry> entrySet() {
+	public Set<Map.Entry> entrySet() {
 		return map.entrySet();
 	}
 
