@@ -17,6 +17,7 @@
 package com.aveeopen.comp.Visualizer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.opengl.EGL14;
 import android.opengl.EGLExt;
@@ -24,6 +25,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.util.AttributeSet;
 
+import com.aveeopen.AveeBufferCallBack;
 import com.aveeopen.Common.Events.WeakEvent4;
 import com.aveeopen.Common.Events.WeakEventR;
 import com.aveeopen.Common.Events.WeakEventR1;
@@ -35,8 +37,8 @@ import com.aveeopen.comp.playback.AudioFrameData;
 import com.aveeopen.comp.Visualizer.Elements.Element;
 import com.aveeopen.comp.Visualizer.Elements.RootElement;
 import com.aveeopen.comp.Visualizer.Graphic.RendererCore;
-import com.research.GLRecorder.GLRecorder;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +54,10 @@ public class VisualizerViewCore extends GLSurfaceView {
     public static WeakEventR<AlbumArtRequest> onRequestsAlbumArtPath = new WeakEventR<>();
     public static WeakEvent4<
             ImageLoadedListener /*loadedListener*/,
-                Integer /*targetBoundsWidth*/,
-                Integer /*targetBoundsHeight*/,
-                AlbumArtRequest /*albumartRequest*/
-                > onRequestAlbumArtPathAndBitmap = new WeakEvent4<>();
+            Integer /*targetBoundsWidth*/,
+            Integer /*targetBoundsHeight*/,
+            AlbumArtRequest /*albumartRequest*/
+            > onRequestAlbumArtPathAndBitmap = new WeakEvent4<>();
     public static WeakEventR<RootElement> onRequestSelectedSkinThemePreset = new WeakEventR<>();
 
     private int EGLContextClientVersion = 2;
@@ -88,6 +90,12 @@ public class VisualizerViewCore extends GLSurfaceView {
         }
     };
 
+    public AveeBufferCallBack aveeBufferCallBack;
+
+    public void setAveeBufferCallBack(AveeBufferCallBack aveeBufferCallBack) {
+        this.aveeBufferCallBack = aveeBufferCallBack;
+    }
+
     public VisualizerViewCore(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -97,11 +105,24 @@ public class VisualizerViewCore extends GLSurfaceView {
 
         //Chose EGL Config Here To Set Element Size For RGB data Alpha,
         // Depth, Stencil, See The Documentation...
-//        this.setEGLConfigChooser(new MyEGLConfigChooser(8, 8, 8, 8, 0, 0, 1, 2));
-        setEGLConfigChooser(GLRecorder.getEGLConfigChooser());
+        this.setEGLConfigChooser(new MyEGLConfigChooser(8, 8, 8, 8, 0, 0, 1, 2));
+
         // Set the Renderer for drawing on the GLSurfaceView
-        renderer = new RendererCore(context,context.getResources(), internalDataProvider);
+        renderer = new RendererCore(context.getResources(), internalDataProvider);
         setRenderer(renderer);
+        renderer.setAveeBufferCallBack(new AveeBufferCallBack() {
+            @Override
+            public void bufferCallBack(ByteBuffer byteBuffer, int textureId) {
+                if (aveeBufferCallBack != null) {
+                    aveeBufferCallBack.bufferCallBack(byteBuffer,textureId);
+                }
+            }
+
+            @Override
+            public void bufferCallBack(int textureId) {
+
+            }
+        });
     }
 
     public void setThemeElements(RootElement root) {

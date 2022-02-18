@@ -159,7 +159,7 @@ public interface IMediaPlayerCore {
 
     void release();
 
-    void setNotifyListener(OnNotifyListener onNotifyListener);
+    void setNotifyListener(IMediaPlayerCore.OnNotifyListener onNotifyListener);
 
     void setNextDataSource(IMediaDataSource path);
 

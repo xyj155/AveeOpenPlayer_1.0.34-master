@@ -34,7 +34,7 @@ public class SearchFilesTask extends AsyncTask<String, Object, Void> {
     private WeakReference<IResultReceiver> receiver;
     private int fileCounter = 0;
 
-    IResultReceiverInternal resultReceiver0 = new IResultReceiverInternal() {
+    SearchFilesTask.IResultReceiverInternal resultReceiver0 = new IResultReceiverInternal() {
 
         @Override
         public void onItemDirFound(final ContainerFile.Item itemDir) {

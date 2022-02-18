@@ -73,7 +73,7 @@ public class ScanPlaylistFilesTask extends AsyncTask<String, Object, Void> {
         searchQuery = "";
     }
 
-    public static ScanPlaylistFilesTask createScanPlaylistFilesTask(Context context, File rootFile, FilterComparable<File> searchFilter, WeakReference<IResultReceiver> resultReceiver) {
+    public static ScanPlaylistFilesTask createScanPlaylistFilesTask(Context context, File rootFile, ScanPlaylistFilesTask.FilterComparable<File> searchFilter, WeakReference<ScanPlaylistFilesTask.IResultReceiver> resultReceiver) {
         return new ScanPlaylistFilesTask(context,
                 rootFile,
                 searchFilter,

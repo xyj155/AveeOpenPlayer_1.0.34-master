@@ -257,7 +257,7 @@ public class AlbumArtCore {
                 .appendQueryParameter("gentext", generateText)
                 .build();
 
-        Target imageLoad = new Target() {
+        com.squareup.picasso.Target imageLoad = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 loadedListener.onBitmapLoaded(bitmap, dataSource, url0, url1);

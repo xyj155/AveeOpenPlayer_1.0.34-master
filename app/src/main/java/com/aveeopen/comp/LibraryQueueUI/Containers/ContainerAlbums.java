@@ -141,7 +141,7 @@ public class ContainerAlbums extends CursorContainerBase {
         String[] columns = {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DATA};
-        String where = MediaStore.Audio.Media.ALBUM_ID
+        String where = android.provider.MediaStore.Audio.Media.ALBUM_ID
                 + "=?";
         String whereVal[] = {albumId};
         SortDesign.SortDesc sortDesc = onRequestCurrentSortDesc.invoke(pageIndex, getSelectionContainerIdentifier(), null);

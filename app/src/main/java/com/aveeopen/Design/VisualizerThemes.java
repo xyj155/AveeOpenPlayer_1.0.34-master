@@ -137,7 +137,7 @@ public class VisualizerThemes {
 
     }
 
-    public List<Tuple2<VisualizerThemeInfo, IVisualizerFactory>> getThemesList() {
+    public List<Tuple2<VisualizerThemeInfo, VisualizerThemes.IVisualizerFactory>> getThemesList() {
         return themesList;
     }
 

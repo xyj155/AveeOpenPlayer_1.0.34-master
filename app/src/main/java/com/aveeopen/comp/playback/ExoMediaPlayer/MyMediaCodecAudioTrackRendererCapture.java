@@ -42,7 +42,7 @@ public class MyMediaCodecAudioTrackRendererCapture extends MediaCodecAudioTrackR
                                                  com.google.android.exoplayer.drm.DrmSessionManager drmSessionManager,
                                                  boolean playClearSamplesWithoutKeys,
                                                  android.os.Handler eventHandler,
-                                                 EventListener eventListener,
+                                                 com.google.android.exoplayer.MediaCodecAudioTrackRenderer.EventListener eventListener,
                                                  AudioCapabilities audioCapabilities,
                                                  int streamType) {
         super(source,
@@ -89,12 +89,12 @@ public class MyMediaCodecAudioTrackRendererCapture extends MediaCodecAudioTrackR
     @Override
     protected boolean processOutputBuffer(long positionUs,
                                           long elapsedRealtimeUs,
-                                          MediaCodec codec,
+                                          android.media.MediaCodec codec,
                                           java.nio.ByteBuffer buffer,
-                                          MediaCodec.BufferInfo bufferInfo,
+                                          android.media.MediaCodec.BufferInfo bufferInfo,
                                           int bufferIndex,
                                           boolean shouldSkip)
-            throws ExoPlaybackException {
+            throws com.google.android.exoplayer.ExoPlaybackException {
 
         //TODO: Should we react on - shouldSkip?
 

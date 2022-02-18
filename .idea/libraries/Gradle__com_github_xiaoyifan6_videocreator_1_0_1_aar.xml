@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xiaoyifan6:videocreator:1.0.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5f50dc7d5bf0f083bed6f473a0f4b5d/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5f50dc7d5bf0f083bed6f473a0f4b5d/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5f50dc7d5bf0f083bed6f473a0f4b5d/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xiaoyifan6/videocreator/1.0.1/f8b1c54618c9dcc985ee3fc3fb4b38d4334faab5/videocreator-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

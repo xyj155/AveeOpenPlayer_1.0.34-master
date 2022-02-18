@@ -241,7 +241,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     private void setMarginBottomTabContainer() {
-        MarginLayoutParams mlp = (MarginLayoutParams) tabsContainer.getLayoutParams();
+        ViewGroup.MarginLayoutParams mlp = (MarginLayoutParams) tabsContainer.getLayoutParams();
         int bottomMargin = indicatorHeight >= underlineHeight ? indicatorHeight : underlineHeight;
         mlp.setMargins(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, bottomMargin);
         tabsContainer.setLayoutParams(mlp);
@@ -650,7 +650,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             dest.writeInt(currentPosition);
         }
 
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);

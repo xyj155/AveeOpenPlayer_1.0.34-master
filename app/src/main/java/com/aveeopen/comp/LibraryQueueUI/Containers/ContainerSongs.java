@@ -231,7 +231,7 @@ public class ContainerSongs extends FilterableMultiListContainerBase<PlaylistSon
                 libraryAddress,
                 displayName,
                 0,
-                new SearchFilter(context),
+                new ContainerSongs.SearchFilter(context),
                 pageIndex);
 
         playnowList = playnowlist;
@@ -244,7 +244,7 @@ public class ContainerSongs extends FilterableMultiListContainerBase<PlaylistSon
                 libraryAddress,
                 displayName,
                 displayIconResId,
-                new SearchFilter(context),
+                new ContainerSongs.SearchFilter(context),
                 pageIndex);
 
         playnowList = playnowlist;
@@ -456,7 +456,7 @@ public class ContainerSongs extends FilterableMultiListContainerBase<PlaylistSon
 
     @Override
     public void updateSearchQuery(Context context, String query) {
-        this.updateSearchQuery(context, query, new SearchFilter(context));
+        this.updateSearchQuery(context, query, new ContainerSongs.SearchFilter(context));
     }
 
     @Override
@@ -488,7 +488,7 @@ public class ContainerSongs extends FilterableMultiListContainerBase<PlaylistSon
         }
     }
 
-    public static class SearchFilter implements FilterComparable<PlaylistSong> {
+    public static class SearchFilter implements FilterableMultiListContainerBase.FilterComparable<PlaylistSong> {
 
         private Context context;
 

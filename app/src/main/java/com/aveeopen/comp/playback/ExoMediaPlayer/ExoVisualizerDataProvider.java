@@ -89,7 +89,7 @@ class ExoVisualizerDataProvider
 
 
     public void onPcmData(ByteBuffer buffer,
-                          MediaCodec.BufferInfo bufferInfo,
+                          android.media.MediaCodec.BufferInfo bufferInfo,
                           int bufferIndex,
                           int sampleRate,
                           int channelCount,
@@ -285,7 +285,7 @@ class ExoVisualizerDataProvider
 
     class BufferEntry {
         public ByteBuffer outputBuffer = ByteBuffer.allocate(0);
-        public MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+        public android.media.MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
         public int sampleRate;
         public int channelCount;
     }
